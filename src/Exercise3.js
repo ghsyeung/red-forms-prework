@@ -96,7 +96,6 @@ export class Exercise3 extends Component {
           <button className="line" type="submit">Submit</button>
           <Errors errors={errors}/>
         </form>
-        <a href="/e4">Demo 4</a>
       </div>
     );
   }

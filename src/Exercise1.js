@@ -53,8 +53,6 @@ export class Exercise1 extends Component {
               : null
           }
         </form>
-
-        <a href="/e2">Demo 2</a>
       </div>
     );
   }

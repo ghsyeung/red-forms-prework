@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Form, Field } from 'react-final-form';
 import "./SimpleForm.css";
 
 function Errors({errors}) {
@@ -20,15 +21,15 @@ function Errors({errors}) {
   ;
 }
 
-function Input({value, placeholder, change, meta}) {
+function Input({value, placeholder, onChange, meta}) {
   return (
     <div className="line">
       <input className="line"
         type="text" 
         value={value || ''} 
         placeholder={placeholder}
-        onChange={change}/>
-      { meta.error 
+        onChange={onChange}/>
+      { meta.touched && meta.error 
           ? (<Errors errors={[meta.error]}/>)
           : null
       }
@@ -36,29 +37,17 @@ function Input({value, placeholder, change, meta}) {
   );
 }
 
-function FancyInput({label, value, placeholder, change, meta}) {
+function FancyInput({label, value, placeholder, onChange, meta}) {
   return (
     <label className="line fancy">{label}
       <input type="text" value={value || ''} placeholder={placeholder}
-        onChange={change}/>
-      { meta.error 
+        onChange={onChange}/>
+      { meta.touched && meta.error 
           ? (<Errors errors={[meta.error]}/>)
           : null
       }
-
     </label>
   );
-}
-
-function Field({name, change, form, render}) {
-  const { config, state, errors } = form;
-  return render({
-    label: config.label[name],
-    value: state[name],
-    meta: { error: errors[name] },
-    placeholder: config.placeholder[name],
-    change: (e) => change(name, e),
-  });
 }
 
 function validateName(name) {
@@ -92,23 +81,26 @@ export const FormConfig = {
 };
 
 
-
-export function FormView({form, change, handleSubmit}) {
+export function FormView({handleSubmit}) {
   return (
     <form onSubmit={handleSubmit}>
 
       <Field name="name"
-        form={form}
-        change={change}
-        render={props => (
-          <Input {...props}/>
+        render={({input, meta}) => (
+          <Input 
+            placeholder={FormConfig.placeholder[input.name]}
+            onChange={input.onChange} 
+            meta={meta}
+            value={input.value} />
         )}/>
 
       <Field name="email"
-        form={form}
-        change={change}
-        render={props => (
-          <FancyInput label="Email" {...props}/>
+        render={({input, meta}) => (
+          <FancyInput 
+            placeholder={FormConfig.placeholder[input.name]} 
+            label={FormConfig.label[input.name]} 
+            meta={meta}
+            {...input} />
         )}/>
 
       <button className="line" type="submit">Submit</button>
@@ -116,61 +108,28 @@ export function FormView({form, change, handleSubmit}) {
   );
 }
 
-export class SuperFormLogic extends Component {
-  constructor() {
-    super();
-    this.state = {
-      errors: {},
-    };
-  }
+function validate(state) {
+  const errors = Object.entries(FormConfig.validate)
+    .map(([k, validateFn]) => [k, validateFn(state[k])])
+    .reduce((a, [k, e]) => { a[k] = e; return a; }, {})
+  ;
+  return errors;
+}
 
-  validate(e) {
-    const state = this.state;
-
-    const errors = Object.entries(FormConfig.validate)
-      .map(([k, validateFn]) => [k, validateFn(state[k])])
-      .reduce((a, [k, e]) => { a[k] = e; return a; }, {})
-    ;
-
-    if (Object.entries(errors).every(([k, e]) => !e)) {
-      alert("Form is valid!");
-    } 
-
-    this.setState({errors});
-    // if there's no error, errors = {}
-    e.preventDefault();
-    return false;
-  }
-
-  change(field, e) {
-    const {errors} = this.state;
-
-    this.setState({
-      [field]: e.target.value,
-      errors: {
-        ...errors,
-        [field]: undefined
-      }
-    });
+export class Source7 extends Component {
+  onSubmit(finalState) {
+    alert(`Form is Valid!\n${JSON.stringify(finalState)}`);
   }
 
   render() {
-    const { formConfig, render } = this.props;
-    const {errors} = this.state;
-
-    const form = { 
-      state: this.state, 
-      config: formConfig, 
-      errors 
-    };
-
-    const change = this.change.bind(this);
-
-    return render({
-      handleSubmit: (e) => this.validate(e),
-      form,
-      change,
-    });
+    return (
+      <div className="exercise-7">
+        <Form
+          onSubmit={this.onSubmit.bind(this)}
+          validate={validate}
+          render={props => (<FormView {...props}/>)}
+        />
+      </div>
+    );
   }
 }
-

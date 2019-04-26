@@ -75,19 +75,29 @@ function validateEmail(email) {
   }
 }
 
+function validateAge(age) {
+  if (!age || !/^[0-9]+$/i.test(age)) {
+    return 'not a valid age';
+  }
+}
+
+
 
 const FormConfig = {
   label: { 
     name: 'Name',
     email: 'Email',
+    age: 'Age',
   },
   placeholder: {
     name: 'Name',
     email: 'test@test.com',
+    age: 'How old are you?',
   },
   validate: {
     name: validateName,
     email: validateEmail,
+    age: validateAge,
   }
 };
 
@@ -157,6 +167,14 @@ export class Source5 extends Component {
             change={change}
             render={props => (
               <FancyInput label="Email" {...props}/>
+            )}/>
+
+
+          <Field name="age"
+            form={form}
+            change={change}
+            render={props => (
+              <FancyInput label="Age" {...props}/>
             )}/>
 
           <button className="line" type="submit">Submit</button>

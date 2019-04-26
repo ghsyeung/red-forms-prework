@@ -32,7 +32,7 @@ button {
   color: red;
 }
 
-label {
+label.basic {
   font-size: 17px;
   color: darkgrey;
 }

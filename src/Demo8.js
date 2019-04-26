@@ -2,32 +2,30 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import "./SimpleForm.css";
-import {Source7} from './Source7';
+import {Source8} from './Source8';
 
 const desc = `
-With *final-form*
+With *final-form* and **MUI**!!
 `;
 
-export function Description7() {
+export function Description8() {
   return (
     <div className="description">
       <ReactMarkdown source={desc}/>
-
-      <Link to="/e8">Demo 8</Link>
     </div>
   );
 }
 
-export function Demo7() {
+export function Demo8() {
   return (
     <div className="demo">
       <div className="left">
-        <Description7/>
+        <Description8/>
       </div>
       <div className="right">
-        <div className="exercise-7">
-          <h1>Demo 7</h1>
-          <Source7/>
+        <div className="exercise-8">
+          <h1>Demo 8</h1>
+          <Source8/>
         </div>
       </div>
     </div>

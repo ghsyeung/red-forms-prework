@@ -1,6 +1,5 @@
 import React from 'react';
 import {Redirect, Switch, Route, BrowserRouter as Router} from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 import {Exercise1} from './Exercise1';
 import {Exercise2} from './Exercise2';

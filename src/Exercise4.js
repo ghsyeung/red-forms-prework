@@ -119,7 +119,7 @@ export class Exercise4 extends Component {
   }
 
   render() {
-    const {name, email, errors} = this.state;
+    const {errors} = this.state;
 
     const form = { state: this.state, config: FormConfig };
     const change = this.change.bind(this);

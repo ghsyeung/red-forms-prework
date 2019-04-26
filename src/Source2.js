@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import "./SimpleForm.css";
 
-export class Exercise2 extends Component {
+export class Source2 extends Component {
   constructor() {
     super();
     this.state = {

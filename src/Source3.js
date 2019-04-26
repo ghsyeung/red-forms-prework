@@ -20,7 +20,7 @@ function Errors({errors}) {
   ;
 }
 
-export class Exercise3 extends Component {
+export class Source3 extends Component {
   constructor() {
     super();
     this.state = {

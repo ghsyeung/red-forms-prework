@@ -10,7 +10,7 @@ function Errors({errors}) {
         {
           nonEmptyEntries.map(([k, error]) => 
             <div key={k} className="error">
-              { k }: { error }
+              { error }
             </div>
           )
         }
@@ -20,32 +20,61 @@ function Errors({errors}) {
   ;
 }
 
-function Input({value, placeholder, change}) {
+function Input({value, placeholder, change, meta}) {
   return (
-    <input className="line"
-      type="text" value={value || ''} placeholder={placeholder}
-      onChange={change}/>
+    <div className="line">
+      <input className="line"
+        type="text" 
+        value={value || ''} 
+        placeholder={placeholder}
+        onChange={change}/>
+      { meta.error 
+          ? (<Errors errors={[meta.error]}/>)
+          : null
+      }
+    </div>
   );
 }
 
-function FancyInput({label, value, placeholder, change}) {
+function FancyInput({label, value, placeholder, change, meta}) {
   return (
     <label className="line fancy">{label}
       <input type="text" value={value || ''} placeholder={placeholder}
         onChange={change}/>
+      { meta.error 
+          ? (<Errors errors={[meta.error]}/>)
+          : null
+      }
+
     </label>
   );
 }
 
 function Field({name, change, form, render}) {
-  const { config, state } = form;
+  const { config, state, errors } = form;
   return render({
     label: config.label[name],
     value: state[name],
+    meta: { error: errors[name] },
     placeholder: config.placeholder[name],
     change: (e) => change(name, e),
   });
 }
+
+function validateName(name) {
+  if (!name || !name.trim()) {
+    return `what's your name?`;
+  }
+}
+
+function validateEmail(email) {
+  if (!email || !/@.*\./i.test(email)) {
+    return 'not a valid email';
+  } else if (/gmail\.com/i.test(email)) {
+    return 'cannot use gmail';
+  }
+}
+
 
 const FormConfig = {
   label: { 
@@ -55,48 +84,30 @@ const FormConfig = {
   placeholder: {
     name: 'Name',
     email: 'test@test.com',
+  },
+  validate: {
+    name: validateName,
+    email: validateEmail,
   }
 };
 
-export class Exercise4 extends Component {
+export class Source5 extends Component {
   constructor() {
     super();
     this.state = {
-      name: undefined,
-      email: undefined,
       errors: {},
     };
   }
 
-  validateName(name) {
-    if (!name.trim()) {
-      return `what's your name?`;
-    }
-  }
-
-  validateEmail(email) {
-    if (!/@.*\./i.test(email)) {
-      return 'not a valid email';
-    } else if (/gmail\.com/i.test(email)) {
-      return 'cannot use gmail';
-    }
-  }
-
   validate(e) {
-    const {name = "", email = ""} = this.state;
-    const errors = {};
+    const state = this.state;
 
-    const nameErrors = this.validateName(name); 
-    if (nameErrors) {
-      errors['name'] = nameErrors;
-    }
+    const errors = Object.entries(FormConfig.validate)
+      .map(([k, validateFn]) => [k, validateFn(state[k])])
+      .reduce((a, [k, e]) => { a[k] = e; return a; }, {})
+    ;
 
-    const emailErrors = this.validateEmail(email);
-    if (emailErrors) {
-      errors['email'] = emailErrors;
-    }
-
-    if (!(nameErrors || emailErrors)) {
+    if (Object.entries(errors).every(([k, e]) => !e)) {
       alert("Form is valid!");
     } 
 
@@ -121,30 +132,34 @@ export class Exercise4 extends Component {
   render() {
     const {errors} = this.state;
 
-    const form = { state: this.state, config: FormConfig };
+    const form = { 
+      state: this.state, 
+      config: FormConfig, 
+      errors 
+    };
+
     const change = this.change.bind(this);
 
     return (
-      <div className="exercise-4">
-        <h1>Demo 4</h1>
+      <div className="exercise-5">
+        <h1>Demo 5</h1>
         <form onSubmit={(e) => this.validate(e)}>
 
           <Field name="name"
             form={form}
             change={change}
             render={props => (
-            <Input {...props}/>
-          )}/>
+              <Input {...props}/>
+            )}/>
 
           <Field name="email"
             form={form}
             change={change}
             render={props => (
-            <FancyInput label="Email" {...props}/>
-          )}/>
+              <FancyInput label="Email" {...props}/>
+            )}/>
 
           <button className="line" type="submit">Submit</button>
-          <Errors errors={errors}/>
         </form>
       </div>
     );

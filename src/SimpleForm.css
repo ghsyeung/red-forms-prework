@@ -52,3 +52,7 @@ label.fancy input:focus {
   border-bottom: 3px rgba(255, 174, 32, 1) solid;
   margin-bottom: 0px;
 }
+
+a {
+  font-size: 12px;
+}

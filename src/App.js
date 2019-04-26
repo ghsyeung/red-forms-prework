@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
+import {Redirect, Switch, Route, BrowserRouter as Router} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import {Exercise1} from './Exercise1';
@@ -12,6 +12,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
+          <Redirect exact from="/" to="/e1" />
           <Route path="/e1" component={Exercise1}/>
           <Route path="/e2" component={Exercise2}/>
           <Route path="/e3" component={Exercise3}/>

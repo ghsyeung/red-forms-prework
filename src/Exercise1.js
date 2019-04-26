@@ -24,7 +24,7 @@ export class Exercise1 extends Component {
       this.setState({errors: undefined});
       alert("Form is valid!");
     }
-    
+
     e.preventDefault();
     return false;
   }
@@ -39,20 +39,22 @@ export class Exercise1 extends Component {
 
     return (
       <div className="exercise-1">
-      <form onSubmit={(e) => this.validate(e)}>
-        <h1>Demo 1</h1>
-        <input className="line" 
-               type="text" value={name || ''} placeholder="Name" 
-               onChange={(e) => this.change('name', e)}/>
-        <input className="line"
-               type="text" value={email || ''} placeholder="Email"
-               onChange={(e) => this.change('email', e)}/>
-        <button className="line" type="submit">Submit</button>
-        { errors
-           ? <div className="errors line">{errors}</div>
-           : null
-        }
-      </form>
+        <form onSubmit={(e) => this.validate(e)}>
+          <h1>Demo 1</h1>
+          <input className="line" 
+            type="text" value={name || ''} placeholder="Name" 
+            onChange={(e) => this.change('name', e)}/>
+          <input className="line"
+            type="text" value={email || ''} placeholder="Email"
+            onChange={(e) => this.change('email', e)}/>
+          <button className="line" type="submit">Submit</button>
+          { errors
+              ? <div className="errors line">{errors}</div>
+              : null
+          }
+        </form>
+
+        <a href="/e2">Demo 2</a>
       </div>
     );
   }

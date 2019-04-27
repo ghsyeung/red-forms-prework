@@ -9,17 +9,14 @@ function Input({label, value, placeholder, onChange, meta}) {
 	return (
 		<div className="line">
 		<div>
-			<InputLabel shrink>{label}</InputLabel>
 			<TextField 
-				placeholder={placeholder}
+        label={label}
+        placeholder={placeholder}
 				value={value}
-				error={meta.touched && meta.error}
+				error={!!meta.touched && !!meta.error}
+        helperText={!!meta.touched && meta.error || ""}
 				onChange={onChange}
 			/>
-			{ meta.touched && meta.error
-					? (<FormHelperText id="component-error-text">{meta.error}</FormHelperText>)
-					:null
-			}
 		</div>
 	</div>
 	);

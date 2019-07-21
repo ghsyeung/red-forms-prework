@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import "./SimpleForm.css";
-import {Source3} from './Source3';
+import {Source3} from './formSource/Source3';
 
 const desc = `
 Hm...so far so good?

@@ -1,11 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import "./SimpleForm.css";
-import {Source8} from './Source8';
+import {Source8} from './formSource/Source8';
 
 const desc = `
-With *final-form* and **MUI**!!
+With **react-final-form** and **MUI**!!
+
+For more examples of MUI, see
+
+https://material-ui.com/getting-started/page-layout-examples/
 `;
 
 export function Description8() {

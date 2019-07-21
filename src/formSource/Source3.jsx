@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./SimpleForm.css";
+import "../SimpleForm.css";
 
 function Errors({errors}) {
   const nonEmptyEntries = Object.entries(errors)
@@ -20,45 +20,7 @@ function Errors({errors}) {
   ;
 }
 
-function Input({value, placeholder, change}) {
-  return (
-    <input className="line"
-      type="text" value={value || ''} placeholder={placeholder}
-      onChange={change}/>
-  );
-}
-
-function FancyInput({label, value, placeholder, change}) {
-  return (
-    <label className="line fancy">{label}
-      <input type="text" value={value || ''} placeholder={placeholder}
-        onChange={change}/>
-    </label>
-  );
-}
-
-function Field({name, change, form, render}) {
-  const { config, state } = form;
-  return render({
-    label: config.label[name],
-    value: state[name],
-    placeholder: config.placeholder[name],
-    change: (e) => change(name, e),
-  });
-}
-
-const FormConfig = {
-  label: { 
-    name: 'Name',
-    email: 'Email',
-  },
-  placeholder: {
-    name: 'Name',
-    email: 'test@test.com',
-  }
-};
-
-export class Source4 extends Component {
+export class Source3 extends Component {
   constructor() {
     super();
     this.state = {
@@ -119,30 +81,18 @@ export class Source4 extends Component {
   }
 
   render() {
-    const {errors} = this.state;
-
-    const form = { state: this.state, config: FormConfig };
-    const change = this.change.bind(this);
+    const {name, email, errors} = this.state;
 
     return (
-      <div className="exercise-4">
-        <h1>Demo 4</h1>
+      <div className="exercise-3">
+        <h1>Demo 3</h1>
         <form onSubmit={(e) => this.validate(e)}>
-
-          <Field name="name"
-            form={form}
-            change={change}
-            render={props => (
-            <Input {...props}/>
-          )}/>
-
-          <Field name="email"
-            form={form}
-            change={change}
-            render={props => (
-            <FancyInput label="Email" {...props}/>
-          )}/>
-
+          <input className="line" 
+            type="text" value={name || ''} placeholder="Name" 
+            onChange={(e) => this.change('name', e)}/>
+          <input className="line"
+            type="text" value={email || ''} placeholder="Email"
+            onChange={(e) => this.change('email', e)}/>
           <button className="line" type="submit">Submit</button>
           <Errors errors={errors}/>
         </form>

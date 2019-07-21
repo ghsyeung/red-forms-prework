@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import "./SimpleForm.css";
-import {Source1} from './Source1';
+import {Source1} from './formSource/Source1';
 
 const desc = `
 Let's warm up with a React component with states. 

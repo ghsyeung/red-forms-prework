@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import "./SimpleForm.css";
+import "../SimpleForm.css";
 
-export class Source2 extends Component {
+export class Source1 extends Component {
   constructor() {
     super();
     this.state = {
@@ -11,35 +11,26 @@ export class Source2 extends Component {
     };
   }
 
-  validateName(name) {
-    if (!name.trim()) {
-      return `what's your name?`;
-    }
-  }
-
-  validateEmail(email) {
-    if (!/@.*\./i.test(email)) {
-      return 'not a valid email';
-    } else if (/gmail\.com/i.test(email)) {
-      return 'cannot use gmail';
-    }
-  }
-
   validate(e) {
     const {name = "", email = ""} = this.state;
 
-    const errors = this.validateName(name) || this.validateEmail(email);
-    if (!errors) {
+    if (!name.trim()) {
+      this.setState({errors: `what's your name?` });
+    } else if (!/@.*\./i.test(email)) {
+      this.setState({errors: 'not a valid email' });
+    } else if (/gmail\.com/i.test(email)) {
+      this.setState({errors: 'cannot use gmail' });
+    } else {
+      this.setState({errors: undefined});
       alert("Form is valid!");
-    } 
+    }
 
-    // if there's no error, errors = undefined
-    this.setState({errors});
     e.preventDefault();
     return false;
   }
 
   change(field, e) {
+    console.log(`Updating [${field}] = ${e.target.value}`);
     this.setState({[field]: e.target.value});
   }
 
@@ -47,9 +38,9 @@ export class Source2 extends Component {
     const {name, email, errors} = this.state;
 
     return (
-      <div className="exercise-2">
-        <h1>Demo 2</h1>
+      <div className="exercise-1">
         <form onSubmit={(e) => this.validate(e)}>
+          <h1>Demo 1</h1>
           <input className="line" 
             type="text" value={name || ''} placeholder="Name" 
             onChange={(e) => this.change('name', e)}/>

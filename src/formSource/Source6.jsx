@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./SimpleForm.css";
+import "../SimpleForm.css";
 
 function Errors({errors}) {
   const nonEmptyEntries = Object.entries(errors)
@@ -20,14 +20,14 @@ function Errors({errors}) {
   ;
 }
 
-function Input({value, placeholder, change, meta}) {
+function Input({value, placeholder, onChange, meta}) {
   return (
     <div className="line">
       <input className="line"
         type="text" 
         value={value || ''} 
         placeholder={placeholder}
-        onChange={change}/>
+        ononChange={onChange}/>
       { meta.error 
           ? (<Errors errors={[meta.error]}/>)
           : null
@@ -36,11 +36,11 @@ function Input({value, placeholder, change, meta}) {
   );
 }
 
-function FancyInput({label, value, placeholder, change, meta}) {
+function FancyInput({label, value, placeholder, onChange, meta}) {
   return (
     <label className="line fancy">{label}
       <input type="text" value={value || ''} placeholder={placeholder}
-        onChange={change}/>
+        ononChange={onChange}/>
       { meta.error 
           ? (<Errors errors={[meta.error]}/>)
           : null
@@ -50,14 +50,14 @@ function FancyInput({label, value, placeholder, change, meta}) {
   );
 }
 
-function Field({name, change, form, render}) {
+function Field({name, onChange, form, render}) {
   const { config, state, errors } = form;
   return render({
     label: config.label[name],
     value: state[name],
     meta: { error: errors[name] },
     placeholder: config.placeholder[name],
-    change: (e) => change(name, e),
+    onChange: (e) => onChange(name, e),
   });
 }
 
@@ -81,9 +81,7 @@ function validateAge(age) {
   }
 }
 
-
-
-const FormConfig = {
+export const FormConfig = {
   label: { 
     name: 'Name',
     email: 'Email',
@@ -101,7 +99,34 @@ const FormConfig = {
   }
 };
 
-export class Source5 extends Component {
+export function FormView({form, handleSubmit}) {
+  return (
+    <form onSubmit={handleSubmit}>
+
+      <Field name="name"
+        form={form}
+        render={props => (
+          <Input {...props}/>
+        )}/>
+
+      <Field name="email"
+        form={form}
+        render={props => (
+          <FancyInput label="Email" {...props}/>
+        )}/>
+
+      <Field name="age"
+        form={form}
+        render={props => (
+          <FancyInput label="Age" {...props}/>
+        )}/>
+
+      <button className="line" type="submit">Submit</button>
+    </form>
+  );
+}
+
+export class SuperForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -127,7 +152,7 @@ export class Source5 extends Component {
     return false;
   }
 
-  change(field, e) {
+  onChange(field, e) {
     const {errors} = this.state;
 
     this.setState({
@@ -140,47 +165,22 @@ export class Source5 extends Component {
   }
 
   render() {
+    const { formConfig, render } = this.props;
     const {errors} = this.state;
 
-    const form = { 
+    const onChange = this.onChange.bind(this);
+    const form = {
       state: this.state, 
-      config: FormConfig, 
-      errors 
+      config: formConfig, 
+      errors,
+      onChange,
     };
 
-    const change = this.change.bind(this);
 
-    return (
-      <div className="exercise-5">
-        <h1>Demo 5</h1>
-        <form onSubmit={(e) => this.validate(e)}>
-
-          <Field name="name"
-            form={form}
-            change={change}
-            render={props => (
-              <Input {...props}/>
-            )}/>
-
-          <Field name="email"
-            form={form}
-            change={change}
-            render={props => (
-              <FancyInput label="Email" {...props}/>
-            )}/>
-
-
-          <Field name="age"
-            form={form}
-            change={change}
-            render={props => (
-              <FancyInput label="Age" {...props}/>
-            )}/>
-
-          <button className="line" type="submit">Submit</button>
-        </form>
-      </div>
-    );
+    return render({
+      handleSubmit: (e) => this.validate(e),
+      form,
+    });
   }
 }
 

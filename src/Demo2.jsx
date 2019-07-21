@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import "./SimpleForm.css";
-import {Source2} from './Source2';
+import {Source2} from './formSource/Source2';
 
 const desc = `
 Let's try filling in the form, does it work the same way as before? 

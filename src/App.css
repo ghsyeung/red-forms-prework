@@ -8,9 +8,11 @@
   pointer-events: none;
 }
 
-.App-header { background-color: #282c34;
+.App-header {
+  background-color: #282c34;
   min-height: 100vh;
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -32,12 +34,16 @@
 
 .demo {
   display: flex;
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
 
 .demo .left {
-  flex: 1.3;
+  flex: 1.8;
   text-align: left;
   padding: 20px;
+  overflow-y: scroll;
 }
 
 .demo .description li {
@@ -50,6 +56,9 @@
 
 .demo .description pre code {
   background-color: transparent;
+  padding: 10px 5px;
+  display: inline-block;
+  line-height: 1.3;
 }
 
 .demo .description code {
